@@ -94,14 +94,14 @@ class RecipeSkill(MycroftSkill):
     def handle_recipeKeyword(self, message):
         #GET FIRST SEARCH
         print("three")
-        self.set_context("FoodContext") 
+        self.set_context("RecipeKeyword") 
         rec_name = message.data.get("recipe", None)
-        self.adds_context(rec_name)
+        self.adds_context("RecipeKeyword")
         print("four")
         self.speak("Searching for recipe ingredients")
         rec = get_recipes(rec_name)
         #RESPOND, ASK SECOND SEARCH
-        
+        self.adds_context("RecipeKeyword")
         self.speak(str(rec.name) + " has a rating of" + str(rec.rating) + 
         " and it takes " + str(rec.totalTime) + "to make. Anything else?", 
         expect_response = True)     
@@ -109,6 +109,7 @@ class RecipeSkill(MycroftSkill):
         
     def handle_needMore(self, message):
         self.rec_name = self.rec_name + message.data.get("food_descrip", None)
+        
         rec = get_recipes(self.rec_name)
         self.speak("rating is" + self.rec_name +"is" + str(rec.rating) + "anything else?", expect_response = True)
         

@@ -115,7 +115,7 @@ class RecipeSkill(MycroftSkill):
         
     def handle_no(self, message):
         self.speak("Have a good meal")
-        self.remove_context("FoodContext")
+        self.remove_context("RecipeKeyword")
  
             
     def stop(self):

@@ -83,7 +83,7 @@ class RecipeSkill(MycroftSkill):
         keyword_intent = IntentBuilder("RecipeKeywordIntent").require("RecipeKeyword").require("recipe").build()
         self.register_intent(keyword_intent, self.handle_recipeKeyword)
        
-        needMore_intent = IntentBuilder("FoodTypeIntent").require("FoodType").build()
+        needMore_intent = IntentBuilder("FoodTypeIntent").require("food_descrip").build()
         self.register_intent(needMore_intent, self.handle_needMore)
        
         no_intent = IntentBuilder("NoIntent").require("NoKeyword").build()

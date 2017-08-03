@@ -78,12 +78,12 @@ class RecipeSkill(MycroftSkill):
 
     
     def initialize(self):
-        self.register_vocabulary("RecipeKeyword", "recipe")
+        #self.register_vocabulary("RecipeKeyword", "recipe")
 
-        keyword_intent = IntentBuilder("RecipeKeywordIntent").require("RecipeKeyword").require("recipe").build()
+        keyword_intent = IntentBuilder("RecipeKeywordIntent").require("RecipeKeyword").require("FoodNames").optionally("recipe").build()
         self.register_intent(keyword_intent, self.handle_recipeKeyword)
        
-        needMore_intent = IntentBuilder("FoodTypeIntent").require("food_descrip").build()
+        needMore_intent = IntentBuilder("FoodTypeIntent").require("FoodTypes").optionally("food_descrip").build()
         self.register_intent(needMore_intent, self.handle_needMore)
        
         no_intent = IntentBuilder("NoIntent").require("NoKeyword").build()
@@ -93,7 +93,8 @@ class RecipeSkill(MycroftSkill):
         
     def handle_recipeKeyword(self, message):
         #GET FIRST SEARCH
-
+        print("handling recKey")
+        
         rec_name = message.data.get("recipe", None)
         self.set_context("RecipeKeyword", rec_name)
         #self.adds_context("RecipeKeyword")
@@ -108,12 +109,16 @@ class RecipeSkill(MycroftSkill):
          
         
     def handle_needMore(self, message):
+        print("handling more")
+        
         rec_name = self.rec_name + message.data.get("food_descrip", None)
         self.set_context("RecipeKeyword", rec_name)
         rec = get_recipes(self.rec_name)
         self.speak("rating is" + self.rec_name +"is" + str(rec.rating) + "anything else?", expect_response = True)
         
     def handle_no(self, message):
+        print("handling no")
+        
         self.speak("Have a good meal")
         self.remove_context("RecipeKeyword")
  
